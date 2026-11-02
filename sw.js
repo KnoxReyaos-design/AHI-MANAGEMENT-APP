@@ -1,5 +1,5 @@
 /* AHI service worker (v13.2). Network-first for pages, never touches Supabase or any non-GET request. */
-const CACHE = 'ahi-shell-v17';
+const CACHE = 'ahi-shell-v18';
 const SHELL = ['./', './index.html', './manifest.json', './logo.jpg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
