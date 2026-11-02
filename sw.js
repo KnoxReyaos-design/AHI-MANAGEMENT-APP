@@ -1,4 +1,4 @@
-const CACHE='ahi-shell-v12';
+const CACHE='ahi-shell-v14';
 const SHELL=['./','index.html','manifest.json','icon-192.png','icon-512.png','logo.jpg'];
 // Version-pinned library the app imports at startup. Cached so the shell can start offline.
 const LIB='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';

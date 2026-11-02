@@ -133,7 +133,119 @@ body[data-page=fx]{--bg:#FFFFFF;--card:#FFFFFF;--line:#0F1A2E;--ink:#000;--muted
 dialog.navdrawer.right .dlgbox{display:flex;flex-direction:column}#drawerRout{margin-top:auto!important}
 @media(max-width:900px){.tabletools{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tabletools label{min-width:0}.tabletools select{width:100%;min-width:0}}
 #lockov{position:fixed;inset:0;z-index:9999;background:var(--nav);display:grid;place-items:center;padding:24px}.lockbox{width:min(340px,100%);text-align:center;color:#C9D1DF}.lockbrand{font-family:var(--serif);font-size:26px;letter-spacing:.16em;color:#E2C27D;margin-bottom:12px}#lockpin{width:100%;min-height:52px;font-size:24px;text-align:center;letter-spacing:.4em;border-radius:12px;border:1px solid #2A3B5C;background:#16243E;color:#fff;margin-bottom:10px}#lockf .btn{width:100%}#lockerr{color:#FF9A9A;min-height:1.4em}#lockov .btn.ghost{background:transparent;color:#C9D1DF;border-color:#2A3B5C}
-.bar{height:8px;border-radius:4px;background:#EBE5D6;margin-top:5px}.bar i{display:block;height:8px;border-radius:4px;background:var(--nav)}</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap"><link rel="manifest" href="manifest.json"></head><body>
+.bar{height:8px;border-radius:4px;background:#EBE5D6;margin-top:5px}.bar i{display:block;height:8px;border-radius:4px;background:var(--nav)}
+/* ===== v10: company-screens proposal look, applied app-wide ===== */
+:root{--nav:#0F1A2E;--nav2:#1B2A47;--gold:#C9A45C;--gold-l:#E3BE73;--gold-d:#8A6420;--gold-bg:#F3E6C8;--bg:#F7F3EC;--line:#E3DACB;--chip:#EADFCB;--ink:#0F1A2E;--muted:#4A5568;--ok:#1E6B3E;--ok-bg:#E4F2E9;--err:#A32A20;--err-bg:#FBE9E6;--r:16px;--sh:0 1px 2px rgba(15,26,46,.05),0 8px 24px -12px rgba(15,26,46,.18)}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+h1,h2,h3,.metric,.logincard h2,.dlgbox h3{font-family:var(--serif);letter-spacing:-.005em}
+:focus-visible{outline:3px solid var(--gold-l);outline-offset:2px;border-radius:10px}
+/* header */
+.top{background:var(--nav)!important;color:#fff;border-bottom:0!important;box-shadow:0 2px 0 var(--gold),0 10px 24px -14px rgba(15,26,46,.6)}
+.top h1{color:#fff;font-size:24px;font-weight:700;line-height:1.1}
+.top .muted{color:var(--gold-l)!important;font-size:10px!important;font-weight:700;letter-spacing:.2em!important;margin-top:3px}
+#menuopen,#menuright,#refresh{border-radius:14px;min-width:46px;min-height:46px;background:#16243E!important;border:1px solid #2A3B5C!important;color:#fff!important}
+#menuopen:active,#menuright:active,#refresh:active{background:#22345A!important}
+/* cards */
+.card,details.form-card,.kpi,.balcard,button.metric-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.card{padding:18px}
+.card h3{font-size:22px;font-weight:700;margin:0 0 6px}
+.hero{border-radius:var(--r);border-left:0!important;background:linear-gradient(135deg,#0F1A2E 0%,#1B2A47 100%);position:relative;overflow:hidden;box-shadow:var(--sh)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-l),transparent)}
+.hero h2{font-size:30px;font-weight:700}
+.muted,.metric-label{color:var(--muted)}
+.metric-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+/* money summary: three figures in one card, as in the proposal */
+.card>.kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0}
+.card>.kpis .kpi{border:0;border-radius:0;box-shadow:none;padding:2px 10px;background:none;border-left:1px solid var(--line)}
+.card>.kpis .kpi:first-child{border-left:0;padding-left:0}
+.card>.kpis .metric{font-size:clamp(19px,5.6vw,28px);font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+.ok{color:var(--ok)!important}.bad{color:var(--err)!important}
+/* buttons */
+.btn{border-radius:14px;min-height:48px;padding:10px 20px;background:var(--nav);color:#fff!important;border:1px solid var(--nav);font-weight:700;font-size:15px;box-shadow:0 6px 14px -8px rgba(15,26,46,.7);transition:transform .12s,background .15s,box-shadow .15s}
+.btn:active{transform:scale(.975);box-shadow:none}
+.btn:hover{background:var(--nav2)}
+.btn.ghost,.btn.secondary{background:#fff;color:var(--ink)!important;border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{background:#FBF7EE;border-color:var(--gold)}
+.btn.danger{background:var(--err);border-color:var(--err);color:#fff!important}
+.btn.sm{min-height:44px;border-radius:12px;padding:8px 14px;font-size:14px}
+.top .btn.ghost{color:#fff!important}
+td .btn,td[data-label="Action"] .btn{background:var(--gold);border-color:var(--gold);color:var(--nav)!important;box-shadow:none;min-height:44px;padding:8px 22px}
+.quick .btn{background:var(--nav);color:#fff!important}
+/* chips and segmented controls */
+.chips{gap:8px;margin:0 0 14px}
+.chips button{min-height:44px;padding:0 18px;border-radius:22px;background:var(--chip);color:var(--ink);font-weight:700;font-size:14px;border:1px solid transparent;transition:background .15s,color .15s,transform .12s}
+.chips button.on{background:var(--nav);color:#fff;box-shadow:0 6px 14px -8px rgba(15,26,46,.8)}
+.chips button:active{transform:scale(.96)}
+.curtabs{background:var(--chip)}.curtabs button.on{box-shadow:0 4px 10px -6px rgba(15,26,46,.8)}
+/* tags */
+.tag{background:var(--gold-bg);color:var(--gold-d);font-size:10.5px;font-weight:800;letter-spacing:.08em;padding:4px 10px}
+.tag.ok,.tag.active{background:var(--ok-bg);color:var(--ok)}.tag.danger,.tag.bad{background:var(--err-bg);color:var(--err)}
+/* investment cards */
+.icard{border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh);transition:transform .12s,border-color .15s;position:relative}
+.icard:active{transform:scale(.985);border-color:var(--gold)}
+.icard .row b{font-size:17px;font-weight:700}
+.icard .row .tag{align-self:flex-start}
+.icard .muted{line-height:1.7;font-size:13.5px}.icard .muted b{color:var(--ink)}
+.fresh,.stale{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700}
+.fresh{background:var(--ok-bg);color:var(--ok)}.stale{background:var(--err-bg);color:var(--err)}
+.fresh::before,.stale::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.icard svg polyline{stroke:var(--ok)}
+/* forms */
+.field label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input,.field select,.field textarea,.table-search,.tabletools select{min-height:50px;border:1px solid #D8CDB8;border-radius:12px;background:#fff;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.field input:focus,.field select:focus,.field textarea:focus,.table-search:focus,.tabletools select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,164,92,.25);outline:0}
+.notice{border-radius:14px}
+/* tables become cards on phones */
+@media(max-width:900px){
+.main .content{padding:14px 14px 28px}
+tbody tr{border:1px solid var(--line);border-radius:var(--r);padding:8px 16px;margin-bottom:12px;box-shadow:var(--sh);background:#fff}
+td,td.num{padding:10px 0;font-size:15px;border-bottom:1px dashed #E3DACB}
+td::before{font-size:10.5px;letter-spacing:.1em;color:var(--muted);font-weight:700}
+td:first-child{font-weight:700}
+td[data-label="Action"]{padding-top:14px}
+.tablepager .btn{min-height:46px}
+}
+/* drawers: legible tiles (previous build showed pale text on white) */
+.moregrid button{color:var(--ink)}
+dialog.navdrawer:not(.right){background:linear-gradient(180deg,#0F1A2E,#14213A)}
+dialog.navdrawer:not(.right) .moregrid{gap:8px}
+dialog.navdrawer:not(.right) .moregrid button{flex-direction:row;gap:16px;min-height:56px;padding:0 18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-left:3px solid transparent;border-radius:14px;color:#F1EBDC;font-size:16px;font-weight:600;text-align:left;box-shadow:none}
+dialog.navdrawer:not(.right) .moregrid button .ico{color:var(--gold-l);stroke:var(--gold-l);flex:none}
+dialog.navdrawer:not(.right) .moregrid button:active{background:rgba(255,255,255,.12)}
+dialog.navdrawer:not(.right) .moregrid button.active{background:var(--gold-bg);border-color:var(--gold);border-left-color:var(--gold-d);color:var(--nav)}
+dialog.navdrawer:not(.right) .moregrid button.active .ico{color:var(--gold-d);stroke:var(--gold-d)}
+dialog.navdrawer:not(.right) .btn.ghost{background:transparent;color:#E8E0CC!important;border-color:rgba(255,255,255,.2)}
+dialog.navdrawer:not(.right) .sheethead .btn.ghost{background:#fff;color:var(--nav)!important}
+dialog.navdrawer .dlgbox h3{font-size:22px}
+dialog.navdrawer.right .dbtn{min-height:52px;font-size:16px;border-radius:14px}
+dialog.navdrawer.right .dbtn.active{background:var(--gold-bg);color:var(--nav);font-weight:700}
+dialog.navdrawer.right .dlab{margin-top:20px;font-weight:700;letter-spacing:.16em;font-size:11px}
+dialog.navdrawer::backdrop{background:rgba(8,14,28,.62);backdrop-filter:blur(2px)}
+dialog.navdrawer[open]{animation:ahiIn .22s ease-out}dialog.navdrawer.right[open]{animation:ahiInR .22s ease-out}
+@keyframes ahiIn{from{transform:translateX(-24px);opacity:.4}}@keyframes ahiInR{from{transform:translateX(24px);opacity:.4}}
+dialog#dlg{border-radius:20px}
+/* statement lines, ledger rows, progress */
+.mrow{padding:14px 0;font-size:15px}.mrow:first-of-type{border-top:0}
+.bar{height:10px;background:var(--chip)}.bar i{background:linear-gradient(90deg,var(--nav),var(--nav2))}
+.mvl{height:14px;background:var(--chip)}
+.empty{border:1.5px dashed #CDBF9F;border-radius:var(--r);background:#FBF7EE;padding:28px 20px;text-align:center;color:var(--muted)}
+.empty strong{display:block;font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:6px}
+.foot{font-size:12px;color:var(--muted);padding:18px 20px 28px}
+#flash{border-radius:14px}
+
+.card>.kpis .metric{font-size:clamp(15px,4.4vw,21px)!important;white-space:nowrap;overflow-wrap:normal;font-weight:700}
+.card>.kpis .kpi{padding:2px 8px}.card>.kpis .metric-label{font-size:10px;letter-spacing:.08em}
+.icard .muted b{font-family:system-ui,sans-serif;font-size:15px;font-weight:700;color:var(--ink)}
+.icard .muted b.ok,.icard .muted b.bad{font-weight:800}
+
+#view input[type=checkbox]{-webkit-appearance:none;appearance:none;flex:none;position:relative;width:52px;height:30px;border-radius:15px;background:#CFC6B2;border:0;margin:0;cursor:pointer;transition:background .18s}
+#view input[type=checkbox]::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,26,46,.35);transition:transform .18s}
+#view input[type=checkbox]:checked{background:var(--nav)}
+#view input[type=checkbox]:checked::after{transform:translateX(22px);background:var(--gold-l)}
+#view input[type=checkbox]:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
+.top .ttl{min-width:0;flex:1}.top h1{font-size:clamp(17px,5.4vw,24px);white-space:normal;overflow:visible;text-overflow:clip}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="manifest" href="manifest.json"></head><body>
 <section id="login" class="loginwrap"><div class="loginbox"><div class="loginbrand"><img class="brandlogo" src="logo.jpg" alt="Aspire Hands Innovation" width="48" height="48" alt="Aspire Hands Innovation logo"><div><b>ASPIRE HANDS INNOVATION</b><small>INTERNAL OPERATIONS WORKSPACE</small></div></div><div class="logincard"><h2>Secure sign in</h2><p class="muted">Authorised AHI staff only.</p><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none"></div><div class="field"><label for="pass">Password</label><div class="pwrow"><input id="pass" type="password" autocomplete="current-password"><button type="button" id="peek" aria-label="Show password">Show</button></div></div><button id="sign" class="btn" style="width:100%;margin-top:6px">Sign in</button><p id="err" class="error" role="alert"></p></div></div></section>
 <div id="app" class="shell hidden"><aside class="side"><div class="sidebrand"><img class="brandlogo" src="logo.jpg" alt="Aspire Hands Innovation" width="48" height="48" alt="AHI logo"><div><b>ASPIRE HANDS</b><small>INNOVATION · OPERATIONS</small></div></div><nav id="nav" aria-label="Main"></nav><div class="sidefoot"><button id="out" class="btn hidden">Sign out</button></div></aside>
 <div class="main"><header class="top"><button id="menuopen" class="btn ghost sm" aria-label="Open client menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button><div class="mono" aria-hidden="true">AHI</div><div class="ttl"><h1 id="title">Overview</h1><div class="muted">Live records · currency-aware</div></div><button id="refresh" class="btn ghost sm" aria-label="Refresh data">↻</button><button id="menuright" class="btn ghost sm" aria-label="Open AHI company menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></svg></button><div class="userchip"><span id="who"></span><small id="whorole"></small></div></header>
@@ -287,7 +399,7 @@ function spark(v,w=90,h=30){if(v.length<2)return '';const n=v.map(z=>Number(z.va
 const pct=n=>(n>=0?'+':'')+n.toFixed(1)+'%',cls=n=>n>=0?'ok':'bad';
 const chips=(l,a,k)=>`<div class="chips" role="group">${l.map(x=>`<button type="button" data-${k}="${E(x)}" class="${x===a?'on':''}">${E(x)}</button>`).join('')}</div>`;
 const NODATA='<div class="empty"><strong>No investments yet</strong>Create one on the Company portfolio page.</div>';
-function hdr(p){const s=document.querySelector('.top .muted');if(s&&['coInvest','coStatement','coTxn','coTypes'].includes(p))s.textContent='AHI company'}
+function hdr(p){const s=document.querySelector('.top .muted');if(s&&['coInvest','coStatement','coTxn','coTypes','coVal','coAudit','coRules','coReports'].includes(p))s.textContent='AHI company'}
 const _r=render;render=async function(p){await _r(p);hdr(p)};
 function go(p,id){if(id)SEL=id;render(p)}
 /* 1 hub */
