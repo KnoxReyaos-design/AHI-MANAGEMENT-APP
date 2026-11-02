@@ -244,6 +244,54 @@ dialog#dlg{border-radius:20px}
 #view input[type=checkbox]:checked::after{transform:translateX(22px);background:var(--gold-l)}
 #view input[type=checkbox]:focus-visible{outline:3px solid var(--gold-l);outline-offset:3px}
 .top .ttl{min-width:0;flex:1}.top h1{font-size:clamp(17px,5.4vw,24px);white-space:normal;overflow:visible;text-overflow:clip}
+
+/* ===== v11: AHI-All-Designs.pdf ===== */
+/* flat drawer rows with subtitles */
+#drawergrid.moregrid{display:block}
+dialog.navdrawer:not(.right) #drawergrid .dbtn{background:transparent;border:0;border-left:3px solid transparent;min-height:60px;padding:6px 14px;color:#D5DBE7;border-radius:14px;margin-bottom:2px}
+dialog.navdrawer:not(.right) #drawergrid .dbtn.active{background:var(--nav2);color:#fff;border-left-color:var(--gold)}
+dialog.navdrawer:not(.right) #drawergrid .dbtn .ico{stroke:#E8E0CC;color:#E8E0CC}
+.dbtn span{display:flex;flex-direction:column;line-height:1.25;font-size:17px}
+.dbtn span small{font-size:13px;font-weight:400;opacity:.62;margin-top:1px}
+dialog.navdrawer:not(.right) .dlab{color:#8C9AB0}
+/* switches: green as in the design */
+#view input[type=checkbox]:checked{background:var(--ok)}
+#view input[type=checkbox]:checked::after{background:#fff}
+/* client list rows */
+.crow{display:flex;align-items:center;gap:14px;width:100%;cursor:pointer}
+.crow .av{width:50px;height:50px;border-radius:50%;background:var(--nav);color:var(--gold-l);display:grid;place-items:center;font:700 19px var(--serif);flex:none}
+.crow .nm{flex:1;min-width:0}.crow .nm b{display:block;font-size:16.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .nm small{color:var(--muted);font-size:13.5px}
+.crow .tag{background:var(--ok-bg);color:var(--ok)}.crow .tag.off{background:var(--chip);color:var(--muted)}
+.crow svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
+@media(max-width:900px){tr.cx{padding:12px 14px!important;border-radius:var(--r)}tr.cx>td{display:none!important}tr.cx>td.cxh{display:block!important;border:0;padding:0}tr.cx>td.cxh::before{display:none}}
+/* floating action button */
+#hnew{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:auto!important;z-index:30;border-radius:999px;background:var(--gold);border-color:var(--gold);color:var(--nav)!important;font-weight:800;padding:0 26px;box-shadow:0 14px 28px -10px rgba(15,26,46,.55)}
+/* Forex desk: dark terminal skin */
+body[data-page=fx]{--bg:#080B10;--card:#0F1520;--line:#1C2736;--ink:#E6EDF6;--muted:#8A9BB0;background:#080B10;color:#E6EDF6}
+body[data-page=fx] .card,body[data-page=fx] details.form-card,body[data-page=fx] .kpi,body[data-page=fx] .balcard{background:#0F1520;border:1px solid #1C2736;box-shadow:none;color:#E6EDF6}
+body[data-page=fx] h2,body[data-page=fx] h3,body[data-page=fx] .card h3{color:#E6EDF6;font-family:var(--serif)}
+body[data-page=fx] .metric,body[data-page=fx] td.num{color:#3DDC97;font-family:ui-monospace,Menlo,monospace;font-weight:700}
+body[data-page=fx] .metric.bad,body[data-page=fx] .bad{color:#FF6B6B!important}
+body[data-page=fx] td,body[data-page=fx] .field label,body[data-page=fx] .muted,body[data-page=fx] p{color:#C5D0DE}
+body[data-page=fx] .field label,body[data-page=fx] .metric-label{color:#8A9BB0}
+body[data-page=fx] thead th{background:#0B111A;color:#8A9BB0}
+body[data-page=fx] tbody tr{background:#0F1520;border-color:#1C2736;box-shadow:none}
+body[data-page=fx] td{border-color:#1C2736}
+body[data-page=fx] .field input,body[data-page=fx] .field select,body[data-page=fx] .field textarea,body[data-page=fx] .table-search{background:#0B111A;border:1px solid #243246;color:#E6EDF6}
+body[data-page=fx] .btn{background:#3DDC97;border-color:#3DDC97;color:#04130B!important;box-shadow:none}
+body[data-page=fx] .btn.ghost{background:transparent;border:1px solid #243246;color:#E6EDF6!important}
+body[data-page=fx] .notice{background:#1A2230;border:1px solid #243246;color:#C5D0DE;font-weight:500}
+body[data-page=fx] .tag,body[data-page=fx] .badge{background:#16301F;color:#3DDC97;border:0}
+body[data-page=fx] .hero{background:#0F1520;border:1px solid #1C2736}
+body[data-page=fx] .top{background:#0B1220!important}
+body[data-page=fx] .foot{color:#8A9BB0}
+body[data-page=fx] .chips button,body[data-page=fx] .curtabs{background:#16202E;color:#C5D0DE}
+body[data-page=fx] .chips button.on,body[data-page=fx] .curtabs button.on{background:#3DDC97;color:#04130B}
+
+.crow .nm small{white-space:nowrap}.crow .tag{padding:3px 8px;font-size:9.5px}.crow{gap:12px}.crow .av{width:46px;height:46px}
+body[data-page=fx] .empty{background:#0B111A;border-color:#243246;color:#8A9BB0}body[data-page=fx] .empty strong{color:#E6EDF6}
+.crow{text-align:left}.crow .nm b{white-space:normal}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="manifest" href="manifest.json"></head><body>
 <section id="login" class="loginwrap"><div class="loginbox"><div class="loginbrand"><img class="brandlogo" src="logo.jpg" alt="Aspire Hands Innovation" width="48" height="48" alt="Aspire Hands Innovation logo"><div><b>ASPIRE HANDS INNOVATION</b><small>INTERNAL OPERATIONS WORKSPACE</small></div></div><div class="logincard"><h2>Secure sign in</h2><p class="muted">Authorised AHI staff only.</p><div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none"></div><div class="field"><label for="pass">Password</label><div class="pwrow"><input id="pass" type="password" autocomplete="current-password"><button type="button" id="peek" aria-label="Show password">Show</button></div></div><button id="sign" class="btn" style="width:100%;margin-top:6px">Sign in</button><p id="err" class="error" role="alert"></p></div></div></section>
@@ -308,7 +356,8 @@ async function login(s){
  try{await render(page)}catch(e){$('view').innerHTML=`<div class="card errorcard" role="alert"><h3>Signed in — workspace data could not load</h3><p>${esc(e?.message||'Please check your connection and retry.')}</p><button class="btn" id="retry">Try again</button></div>`;$('retry').onclick=()=>render(page)}
 }
 function drawNav(){const items=nav.filter(x=>!x[2]||can(x[2])),ids=items.map(x=>x[0]);const pref=['dashboard','clients','clientInvestments','reports'].filter(x=>ids.includes(x));ids.forEach(x=>{if(pref.length<4&&!pref.includes(x))pref.push(x)});const prim=pref.map(id=>items.find(x=>x[0]===id));const inPrim=prim.some(x=>x[0]===page);
-const CL=['dashboard','clients','clientInvestments','maturities','transactions','catalog','reports'],CO=['company','fx','coInvest','coTxn','coTypes','coVal','coReports','coAudit','coRules'],AC=['staff','audit','settings'];const grp=(ids,label,cls,attr)=>{const l=ids.map(i=>items.find(x=>x[0]===i)).filter(Boolean);return l.length?`<div class="${attr}">${label}</div>`+l.map(x=>`<button type="button" class="${cls} ${page===x[0]?'active':''}" data-p="${x[0]}" ${page===x[0]?'aria-current="page"':''}>${ico(x[0])}<span>${x[1]}</span></button>`).join(''):''};
+const SUB={dashboard:'Totals only, no names',clients:'Profiles and portfolios',clientInvestments:'All client investments',maturities:'What is due and when',transactions:'Client money in and out',catalog:'Terms and tiers',reports:'Per client and combined',company:'Net position and performance',fx:'Manual rates and conversions',coInvest:'Every AHI asset',coTxn:'Income, costs, capital',coTypes:'Build or pick your own',coVal:'Value over time',coReports:'Per asset and combined',coAudit:'Every action logged',coRules:'What counts as made or lost',staff:'Who can do what',audit:'Every action logged',settings:'Exchange rate, rules'};
+const CL=['dashboard','clients','clientInvestments','maturities','transactions','catalog','reports'],CO=['company','fx','coInvest','coTxn','coTypes','coVal','coReports','coAudit','coRules'],AC=['staff','audit','settings'];const grp=(ids,label,cls,attr)=>{const l=ids.map(i=>items.find(x=>x[0]===i)).filter(Boolean);return l.length?`<div class="${attr}">${label}</div>`+l.map(x=>`<button type="button" class="${cls} ${page===x[0]?'active':''}" data-p="${x[0]}" ${page===x[0]?'aria-current="page"':''}>${ico(x[0])}<span>${x[1]}${SUB[x[0]]?`<small>${SUB[x[0]]}</small>`:''}</span></button>`).join(''):''};
 $('nav').innerHTML=grp(CL,'Clients','navbtn','nlab')+grp(CO,'AHI company','navbtn','nlab')+grp(AC,'Account','navbtn','nlab');
 $('nav').querySelectorAll('button').forEach(b=>b.onclick=()=>render(b.dataset.p));
 $('tabbar').innerHTML=prim.map(x=>`<button class="tab ${page===x[0]?'active':''}" data-p="${x[0]}" ${page===x[0]?'aria-current="page"':''}>${ico(x[0])}<span>${TAB[x[0]]}</span></button>`).join('')+`<button class="tab ${inPrim?'':'active'}" id="tabmore">${ico('more')}<span>More</span></button>`;
@@ -505,6 +554,7 @@ if(ROPEN){const r=build(ROPEN);$('rprev').innerHTML=`<div class="card"><div clas
 window.__ahi={render:p=>render(p),nav,CO_LOST,CO_MADE,today};
 // Attach auth-state handling without allowing a stale cached refresh token to abort app startup.
 try{const{data,error}=await db.auth.getSession();if(error)throw error;if(data?.session)await login(data.session)}catch(e){$('err').textContent=e?.message||'Could not restore your session. Please sign in again.';try{await db.auth.signOut({scope:'local'})}catch(_){}}
-</script><div id="net" hidden>Offline: the app shell loads, but all data needs a connection. Nothing is saved or queued while offline.</div>
+</script><script>(function(){var v=document.getElementById('view');if(!v)return;function fix(){if(document.body.dataset.page!=='clients')return;v.querySelectorAll('tbody tr:not(.cx)').forEach(function(tr){var g=function(l){var t=[].find.call(tr.children,function(c){return(c.dataset.label||'').toLowerCase()===l});return t?t.textContent.trim():''};var nm=g('name');if(!nm)return;var st=g('status'),open=tr.querySelector('button'),ini=nm.split(/\s+/).map(function(w){return w[0]}).join('').slice(0,2).toUpperCase();var td=document.createElement('td');td.className='cxh';var r=document.createElement('div');r.className='crow';var a=document.createElement('div');a.className='av';a.textContent=ini;var n=document.createElement('div');n.className='nm';var b=document.createElement('b');b.textContent=nm;var sm=document.createElement('small');sm.textContent=g('client no.');n.append(b,sm);var t=document.createElement('span');t.className='tag'+(/active/i.test(st)?'':' off');t.textContent=st;r.append(a,n,t);r.insertAdjacentHTML('beforeend','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>');r.onclick=function(){open&&open.click()};r.tabIndex=0;td.append(r);tr.classList.add('cx');tr.append(td)})}new MutationObserver(fix).observe(v,{childList:true,subtree:true});fix()})();</script>
+<div id="net" hidden>Offline: the app shell loads, but all data needs a connection. Nothing is saved or queued while offline.</div>
 <script>const n=document.getElementById('net'),u=()=>n.hidden=navigator.onLine;addEventListener('online',u);addEventListener('offline',u);u();if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));</script>
 </body></html>
