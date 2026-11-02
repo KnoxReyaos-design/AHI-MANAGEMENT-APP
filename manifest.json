@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "AHI Client Onboarding",
+  "name": "AHI Client Management",
   "short_name": "AHI Clients",
-  "description": "AHI client onboarding and records workspace",
+  "description": "Aspire Hands Innovation client management and operations workspace",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
