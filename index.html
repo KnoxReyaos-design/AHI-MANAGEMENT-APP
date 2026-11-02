@@ -638,26 +638,42 @@ v.insertAdjacentHTML('beforeend',`<div class="card" id="feecard"><div class="car
 const f=$('feef');if(f)f.onsubmit=async e=>{e.preventDefault();const b=f.querySelector('button');b.disabled=true;try{await rpc('set_client_return_fee',{p_percentage:Number(f.pct.value),p_reason:f.why.value.trim()});msg('Fee rate saved');await render('dashboard')}catch(x){msg((x&&x.message)||'Could not save','error');b.disabled=false}}};
 })();
 
-/* ===== v16: amount colours by meaning ===== */
-(()=>{const st=document.createElement('style');st.textContent=`.mc-new{color:#3B6D11!important}.mc-paid{color:#993C1D!important}.mc-fee{color:#8A6D00!important}.mc-pend{color:#854F0B!important}.mc-mat{color:#185FA5!important}.mc-proj{color:#534AB7!important;font-style:italic}.mc-pot{color:#3C3489!important;font-style:italic}.mc-loss{color:#A32D2D!important}.mc-proj::before,.mc-pot::before{content:"~ ";font-style:normal}tr.mc-lossrow>td{background:#FCEBEB}.mc-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;margin:0 0 12px}.mc-legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:currentColor}`;document.head.appendChild(st);
+/* ===== v16: amount colours by meaning (every amount, every page) ===== */
+(()=>{const st=document.createElement('style');st.textContent=`.mc-new{color:#3B6D11!important}.mc-paid{color:#993C1D!important}.mc-fee{color:#8A6D00!important}.mc-pend{color:#854F0B!important}.mc-mat{color:#185FA5!important}.mc-proj{color:#534AB7!important;font-style:italic}.mc-pot{color:#3C3489!important;font-style:italic}.mc-loss{color:#A32D2D!important}.mc-proj::before,.mc-pot::before{content:"~ ";font-style:normal}.mc-amt{font-weight:inherit}`;document.head.appendChild(st);
 const cls=l=>{l=String(l||'').toLowerCase().replace(/\s+/g,' ').trim();if(!l)return null;
 if(/loss/.test(l))return'mc-loss';
-if(/company fee|fee income|^fee/.test(l))return'mc-fee';
+if(/company fee|fee income|\bfee\b/.test(l))return'mc-fee';
 if(/projection|projected/.test(l))return'mc-proj';
-if(/expected return|^earns?$|^earning$|it earns/.test(l))return'mc-pot';
-if(/maturity amount|pays in total|receives in total|expected maturity/.test(l))return'mc-mat';
-if(/^pays out$|pending/.test(l))return'mc-pend';
-if(/^payouts?$|paid out|capital returned/.test(l))return'mc-paid';
-if(/principal|invests|invested|contribution|capital in|capital contributed/.test(l))return'mc-new';
+if(/expected return|\bearns\b|\bearning\b|it earns|\bfixed\b|potential/.test(l))return'mc-pot';
+if(/maturity|pays in total|receives in total|total pays/.test(l))return'mc-mat';
+if(/^pays out$|pays out|pending|outstanding|\bdue\b|owed/.test(l))return'mc-pend';
+if(/payouts?|paid out|paid$|capital returned|returned to/.test(l))return'mc-paid';
+if(/principal|invests|invested|investment amount|contribution|capital in|capital contributed|portfolio|under management|funds|minimum|maximum|earned|income|gain|profit|net position/.test(l))return'mc-new';
 return null};
 const ALL=['mc-new','mc-paid','mc-fee','mc-pend','mc-mat','mc-proj','mc-pot','mc-loss'];
-const put=(el,c)=>{if(!el||el.dataset.mc===(c||'-'))return;ALL.forEach(x=>el.classList.remove(x));if(c)el.classList.add(c);el.dataset.mc=c||'-'};
+const RX=/(?:\b[A-Z]{3}\s)?-?\d[\d,]*\.\d{2}\b/g;
+const SKIP='script,style,button,input,textarea,select,option,svg,.mc-amt,[contenteditable]';
+const labelFor=(t,idx)=>{
+const before=t.data.slice(0,idx);let seg=before.split(/[·|•]/).pop().replace(/\b[A-Z]{3}\s*$/,'').trim();
+if(/[a-z]{3}/i.test(seg)){const c=cls(seg);if(c)return c}
+const el=t.parentElement;if(!el)return null;
+if(el.closest('#feecard'))return'mc-fee';
+const td=el.closest('td[data-label]');
+if(td){const lab=td.dataset.label;if(/^amount$/i.test(lab)){const ty=[...td.parentElement.children].find(x=>/^(type|entry type)$/i.test(x.dataset.label||''));const tx=(ty&&ty.textContent||'').toLowerCase();return/contribution/.test(tx)?'mc-new':/payout/.test(tx)?'mc-paid':null}return cls(lab)}
+const dr=el.closest('.detail-row');if(dr){const sp=dr.querySelector('span');if(sp&&!sp.contains(t))return cls(sp.textContent)}
+let n=t,depth=0;
+while(n&&depth<6){let sib=n.previousSibling,k=0;while(sib&&k<6){const tx=(sib.textContent||'').trim();if(tx){const c=cls(tx);if(c)return c}sib=sib.previousSibling;k++}
+n=n.parentElement;if(!n||n.id==='view'||n.classList&&n.classList.contains('card'))break;depth++}
+const card=el.closest('.card,.hero,.mrow');if(card){const h=card.querySelector('h2,h3,h4,.label,.eyebrow,small');if(h&&!h.contains(t)){const c=cls(h.textContent);if(c)return c}}
+return null};
 let busy=false,q=0;
 const paint=()=>{q=0;if(busy)return;busy=true;try{const v=document.getElementById('view');if(!v)return;
-v.querySelectorAll('td[data-label]').forEach(td=>{const lab=td.dataset.label;let c=cls(lab);
-if(/^amount$/i.test(lab)){const tr=td.parentElement,ty=[...tr.children].find(x=>/^(type|entry type)$/i.test(x.dataset.label||''));const t=(ty&&ty.textContent||'').toLowerCase();c=/contribution/.test(t)?'mc-new':/payout/.test(t)?'mc-paid':null}
-if(c&&!/\d/.test(td.textContent))c=null;put(td,c)});
-v.querySelectorAll('.detail-row').forEach(r=>{const sp=r.querySelector('span'),sg=r.querySelector('strong');if(!sp||!sg)return;let c=cls(sp.textContent);if(r.closest('#feecard'))c='mc-fee';if(c&&!/\d/.test(sg.textContent))c=null;put(sg,c)})}finally{busy=false}};
+const w=document.createTreeWalker(v,NodeFilter.SHOW_TEXT,{acceptNode:n=>{if(!/\d[\d,]*\.\d{2}/.test(n.data))return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p||p.closest(SKIP))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT}});
+const list=[];while(w.nextNode())list.push(w.currentNode);
+list.forEach(t=>{const txt=t.data;RX.lastIndex=0;let m,last=0,hit=false;const f=document.createDocumentFragment();
+while((m=RX.exec(txt))){const c=labelFor(t,m.index);if(!c)continue;hit=true;if(m.index>last)f.appendChild(document.createTextNode(txt.slice(last,m.index)));const sp=document.createElement('span');sp.className='mc-amt '+c;sp.textContent=m[0];f.appendChild(sp);last=m.index+m[0].length}
+if(hit){if(last<txt.length)f.appendChild(document.createTextNode(txt.slice(last)));t.parentNode.replaceChild(f,t)}});
+v.querySelectorAll('tr').forEach(tr=>{const cell=[...tr.children].find(x=>x.querySelector&&x.querySelector('.mc-amt'));if(!cell)return;const c=ALL.find(x=>cell.querySelector('.mc-amt.'+x));const cu=[...tr.children].find(x=>/^currency$/i.test(x.dataset.label||''));if(cu&&c&&!cu.dataset.mcc){cu.dataset.mcc=1;cu.classList.add(c)}})}finally{busy=false}};
 const sched=()=>{if(!q)q=requestAnimationFrame(paint)};
 const v=document.getElementById('view');if(v)new MutationObserver(sched).observe(v,{childList:true,subtree:true});sched()})();
 
