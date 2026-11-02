@@ -638,6 +638,29 @@ v.insertAdjacentHTML('beforeend',`<div class="card" id="feecard"><div class="car
 const f=$('feef');if(f)f.onsubmit=async e=>{e.preventDefault();const b=f.querySelector('button');b.disabled=true;try{await rpc('set_client_return_fee',{p_percentage:Number(f.pct.value),p_reason:f.why.value.trim()});msg('Fee rate saved');await render('dashboard')}catch(x){msg((x&&x.message)||'Could not save','error');b.disabled=false}}};
 })();
 
+/* ===== v16: amount colours by meaning ===== */
+(()=>{const st=document.createElement('style');st.textContent=`.mc-new{color:#3B6D11!important}.mc-paid{color:#993C1D!important}.mc-fee{color:#8A6D00!important}.mc-pend{color:#854F0B!important}.mc-mat{color:#185FA5!important}.mc-proj{color:#534AB7!important;font-style:italic}.mc-pot{color:#3C3489!important;font-style:italic}.mc-loss{color:#A32D2D!important}.mc-proj::before,.mc-pot::before{content:"~ ";font-style:normal}tr.mc-lossrow>td{background:#FCEBEB}.mc-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;margin:0 0 12px}.mc-legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:currentColor}`;document.head.appendChild(st);
+const cls=l=>{l=String(l||'').toLowerCase().replace(/\s+/g,' ').trim();if(!l)return null;
+if(/loss/.test(l))return'mc-loss';
+if(/company fee|fee income|^fee/.test(l))return'mc-fee';
+if(/projection|projected/.test(l))return'mc-proj';
+if(/expected return|^earns?$|^earning$|it earns/.test(l))return'mc-pot';
+if(/maturity amount|pays in total|receives in total|expected maturity/.test(l))return'mc-mat';
+if(/^pays out$|pending/.test(l))return'mc-pend';
+if(/^payouts?$|paid out|capital returned/.test(l))return'mc-paid';
+if(/principal|invests|invested|contribution|capital in|capital contributed/.test(l))return'mc-new';
+return null};
+const ALL=['mc-new','mc-paid','mc-fee','mc-pend','mc-mat','mc-proj','mc-pot','mc-loss'];
+const put=(el,c)=>{if(!el||el.dataset.mc===(c||'-'))return;ALL.forEach(x=>el.classList.remove(x));if(c)el.classList.add(c);el.dataset.mc=c||'-'};
+let busy=false,q=0;
+const paint=()=>{q=0;if(busy)return;busy=true;try{const v=document.getElementById('view');if(!v)return;
+v.querySelectorAll('td[data-label]').forEach(td=>{const lab=td.dataset.label;let c=cls(lab);
+if(/^amount$/i.test(lab)){const tr=td.parentElement,ty=[...tr.children].find(x=>/^(type|entry type)$/i.test(x.dataset.label||''));const t=(ty&&ty.textContent||'').toLowerCase();c=/contribution/.test(t)?'mc-new':/payout/.test(t)?'mc-paid':null}
+if(c&&!/\d/.test(td.textContent))c=null;put(td,c)});
+v.querySelectorAll('.detail-row').forEach(r=>{const sp=r.querySelector('span'),sg=r.querySelector('strong');if(!sp||!sg)return;let c=cls(sp.textContent);if(r.closest('#feecard'))c='mc-fee';if(c&&!/\d/.test(sg.textContent))c=null;put(sg,c)})}finally{busy=false}};
+const sched=()=>{if(!q)q=requestAnimationFrame(paint)};
+const v=document.getElementById('view');if(v)new MutationObserver(sched).observe(v,{childList:true,subtree:true});sched()})();
+
 window.__ahi={rpc:(n,a)=>rpc(n,a),render:p=>render(p),nav,CO_LOST,CO_MADE,today};
 // Attach auth-state handling without allowing a stale cached refresh token to abort app startup.
 try{const{data,error}=await db.auth.getSession();if(error)throw error;if(data?.session)await login(data.session)}catch(e){$('err').textContent=e?.message||'Could not restore your session. Please sign in again.';try{await db.auth.signOut({scope:'local'})}catch(_){}}
