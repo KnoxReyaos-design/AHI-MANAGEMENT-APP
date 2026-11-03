@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "AHI Client Onboarding",
-  "short_name": "AHI Clients",
-  "description": "AHI client onboarding and records workspace",
+  "name": "Aspire Hands Innovation \u2014 Management Workspace",
+  "short_name": "AHI Workspace",
+  "description": "Secure AHI client, investment and financial records workspace",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -21,6 +21,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
