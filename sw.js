@@ -1,5 +1,5 @@
-/* AHI v29 app-shell cache. Financial/API requests are never cached or queued. */
-const CACHE_NAME = 'ahi-client-v29';
+/* AHI v30 app-shell cache. Financial/API requests are never cached or queued. */
+const CACHE_NAME = 'ahi-client-v30';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -35,7 +35,7 @@ self.addEventListener('fetch', event => {
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
-        const response = await fetch(request);
+        const response = await fetch(request, { cache: 'reload' });
         if (response && response.ok) {
           const cache = await caches.open(CACHE_NAME);
           cache.put('./index.html', response.clone());
