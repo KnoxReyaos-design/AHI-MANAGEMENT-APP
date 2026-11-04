@@ -1,10 +1,10 @@
-/* AHI v39 app-shell service worker.
+/* AHI v40 app-shell service worker.
    - Financial/API (cross-origin) requests are never cached, queued or touched.
    - Update model: any byte change in this file installs a new worker, which precaches fresh copies
      (bypassing the HTTP cache), takes over at once, and deletes every older ahi-client-* cache.
    - index.html is also fingerprinted (SHA-256) so the page can tell when a newer index.html is live
      even if this file was not changed. */
-const VERSION = 'v39';
+const VERSION = 'v40';
 const CACHE_NAME = 'ahi-client-' + VERSION;
 const CACHE_PREFIX = 'ahi-client-';
 const INDEX_URL = './index.html';
@@ -15,8 +15,8 @@ const CHECK_TIMEOUT_MS = 10000;  /* page-requested freshness check */
 /* Must be present for the install to succeed. */
 const REQUIRED_ASSETS = ['./manifest.json'];
 /* Best effort: a failure here must not block an update. */
-const OPTIONAL_ASSETS = ['./ahi-logo.webp', './ahi-mark.webp', './icon-192.png', './icon-512.png'];
-const RUNTIME_PATHS = new Set(['manifest.json', 'ahi-logo.webp', 'ahi-mark.webp', 'icon-192.png', 'icon-512.png']);
+const OPTIONAL_ASSETS = ['./icon-192.png', './icon-512.png'];
+const RUNTIME_PATHS = new Set(['manifest.json', 'icon-192.png', 'icon-512.png']);
 
 let pendingStore = Promise.resolve();
 

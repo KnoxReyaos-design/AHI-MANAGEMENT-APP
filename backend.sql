@@ -131,3 +131,5 @@ returns date language sql stable set search_path to '' as $$
     when 4 then d+3 when 5 then d+2 else d+1 end
   from (select coalesce(p_date, (now() at time zone 'Africa/Lusaka')::date) as d) s
 $$;
+
+-- v39 note: the PACKAGE delete section above (v37) was applied to your Supabase project on 2026-11-04. Category delete and the v38 Sunday rule were already live.
