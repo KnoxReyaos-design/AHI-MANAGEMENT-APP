@@ -133,3 +133,6 @@ returns date language sql stable set search_path to '' as $$
 $$;
 
 -- v39 note: the PACKAGE delete section above (v37) was applied to your Supabase project on 2026-11-04. Category delete and the v38 Sunday rule were already live.
+
+-- v44 note: checked against the live Supabase project (aeaxkcebentrcdauksnf) on 2026-11-04. Every table, view, column and RPC the app calls exists with matching parameter names,
+-- except verify_audit_chain (audit_events has no hash columns), so that one button reports "not installed". No database changes were made in v44.
