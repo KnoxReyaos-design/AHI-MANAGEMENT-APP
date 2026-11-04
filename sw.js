@@ -1,5 +1,5 @@
-/* AHI v33 app-shell cache. Financial/API requests are never cached or queued. */
-const CACHE_NAME = 'ahi-client-v33';
+/* AHI v34 app-shell cache. Financial/API requests are never cached or queued. */
+const CACHE_NAME = 'ahi-client-v34';
 const CORE_ASSETS = [
   './',
   './index.html',
