@@ -118,3 +118,16 @@ begin
   return jsonb_build_object('mode', 'retired', 'total', v_total, 'active', v_active, 'paid', v_paid);
 end $$;
 grant execute on function public.delete_investment_category(uuid, text, boolean) to authenticated;
+
+
+-- AHI WORKSPACE v38 · investments start on Sundays only (already applied to your Supabase project; safe to re-run).
+-- Mon/Tue/Wed -> previous Sunday, Thu/Fri/Sat -> following Sunday, Sunday stays, blank -> today (Africa/Lusaka) then same rule.
+-- Applied inside create_client_investment, create_funded_client_investment and create_client_onboarding,
+-- so the start date, maturity date and the first contribution entry always agree.
+create or replace function private.normalize_investment_start(p_date date)
+returns date language sql stable set search_path to '' as $$
+  select case extract(dow from d)::int
+    when 0 then d when 1 then d-1 when 2 then d-2 when 3 then d-3
+    when 4 then d+3 when 5 then d+2 else d+1 end
+  from (select coalesce(p_date, (now() at time zone 'Africa/Lusaka')::date) as d) s
+$$;
