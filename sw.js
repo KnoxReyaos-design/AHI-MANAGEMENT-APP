@@ -1,10 +1,10 @@
-/* AHI v41 app-shell service worker.
+/* AHI v43 app-shell service worker.
    - Financial/API (cross-origin) requests are never cached, queued or touched.
    - Update model: any byte change in this file installs a new worker, which precaches fresh copies
      (bypassing the HTTP cache), takes over at once, and deletes every older ahi-client-* cache.
    - index.html is also fingerprinted (SHA-256) so the page can tell when a newer index.html is live
      even if this file was not changed. */
-const VERSION = 'v41';
+const VERSION = 'v43';
 const CACHE_NAME = 'ahi-client-' + VERSION;
 const CACHE_PREFIX = 'ahi-client-';
 const INDEX_URL = './index.html';
