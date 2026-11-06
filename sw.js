@@ -4,7 +4,7 @@
      (bypassing the HTTP cache), takes over at once, and deletes every older ahi-client-* cache.
    - index.html is also fingerprinted (SHA-256) so the page can tell when a newer index.html is live
      even if this file was not changed. */
-const VERSION = 'v43';
+const VERSION = 'v45';
 const CACHE_NAME = 'ahi-client-' + VERSION;
 const CACHE_PREFIX = 'ahi-client-';
 const INDEX_URL = './index.html';
@@ -15,7 +15,7 @@ const CHECK_TIMEOUT_MS = 10000;  /* page-requested freshness check */
 /* Must be present for the install to succeed. */
 const REQUIRED_ASSETS = ['./manifest.json'];
 /* Best effort: a failure here must not block an update. */
-const OPTIONAL_ASSETS = ['./icon-192.png', './icon-512.png'];
+const OPTIONAL_ASSETS = ['./icon-192.png', './icon-512.png', './trade_station.html'];
 const RUNTIME_PATHS = new Set(['manifest.json', 'icon-192.png', 'icon-512.png']);
 
 let pendingStore = Promise.resolve();
@@ -153,7 +153,23 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(handleNavigate(event));
+    const page = url.pathname.split('/').pop();
+    if (page === '' || page === 'index.html') {
+      event.respondWith(handleNavigate(event));
+    } else if (page === 'trade_station.html') {
+      /* The Trade Station loads inside the app as a frame. It must never be stored as the app shell:
+         network first (always fresh), cached copy only when offline. */
+      event.respondWith((async () => {
+        const cache = await caches.open(CACHE_NAME);
+        try {
+          const resp = await fetch(request.url, { cache: 'no-cache', credentials: 'same-origin' });
+          if (resp && resp.ok) { event.waitUntil(cache.put('./trade_station.html', resp.clone())); return resp; }
+          return (await cache.match('./trade_station.html')) || resp;
+        } catch (_) {
+          return (await cache.match('./trade_station.html')) || Response.error();
+        }
+      })());
+    }
     return;
   }
 
