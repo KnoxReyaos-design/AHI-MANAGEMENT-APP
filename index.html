@@ -931,6 +931,13 @@ async function login(s){
  try{await render(page)}catch(e){$('view').innerHTML=`<div class="card errorcard" role="alert"><h3>Signed in — workspace data could not load</h3><p>${esc(e?.message||'Please check your connection and retry.')}</p><button class="btn" id="retry">Try again</button></div>`;$('retry').onclick=()=>render(page)}
  setTimeout(warmCache,700);
 }
+/* ===== Swipe back twice to exit: the first back swipe only warns, the second (within 2.5 s) leaves the app ===== */
+const EXITGUARD=(()=>{let armed=false,timer=0;const push=()=>{try{history.pushState({ahiGuard:1},'',location.href)}catch(_){}};
+try{history.replaceState({ahiGuard:0},'',location.href);push()}catch(_){return}
+addEventListener('popstate',()=>{
+ const d=document.querySelector('dialog[open]');if(d){try{d.close()}catch(_){}push();return}
+ if(armed){armed=false;clearTimeout(timer);history.back();return}
+ armed=true;push();msg('Swipe again to exit the app');timer=setTimeout(()=>{armed=false},2500)})})();
 const SUB={};
 function drawNav(){const items=nav.filter(x=>!x[2]||can(x[2])),ids=items.map(x=>x[0]);const pref=['dashboard','clientInvestments','transactions','maturities'].filter(x=>ids.includes(x));ids.forEach(x=>{if(pref.length<4&&!pref.includes(x))pref.push(x)});const prim=pref.map(id=>items.find(x=>x[0]===id));const inPrim=prim.some(x=>x[0]===page);
 Object.assign(SUB,{dashboard:'Totals only, no names',clients:'Profiles and portfolios',clientInvestments:'All client investments',maturities:'What is due and when',transactions:'Client money in and out',catalog:'Categories and packages',reports:'Per client and combined',staff:'People and what they can do',audit:'Every action logged',settings:'Rates and preferences',tradestation:'Live prices · practice funds',traderecords:'Every trade, kept separate'});
