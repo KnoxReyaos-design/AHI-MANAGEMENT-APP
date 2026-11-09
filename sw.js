@@ -4,7 +4,7 @@
      (bypassing the HTTP cache), takes over at once, and deletes every older ahi-client-* cache.
    - index.html is also fingerprinted (SHA-256) so the page can tell when a newer index.html is live
      even if this file was not changed. */
-const VERSION = 'v60';
+const VERSION = 'v62';
 const CACHE_NAME = 'ahi-client-' + VERSION;
 const CACHE_PREFIX = 'ahi-client-';
 const INDEX_URL = './index.html';

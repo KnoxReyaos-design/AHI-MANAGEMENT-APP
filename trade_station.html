@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' wss://ws.derivws.com wss://api.derivws.com https://aeaxkcebentrcdauksnf.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'"><meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Trade Station</title>
 <style>
+:focus-visible{outline:2px solid #0f6b4f;outline-offset:2px}@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 :root{--bg:#f6f4ef;--card:#fff;--tx:#1b1b1f;--mu:#6b6b75;--bd:#e2dfd6;--ac:#0f6b4f;--gn:#0f8a5f;--rd:#c23b3b;--am:#b7791f;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101214;--card:#1a1d20;--tx:#ececec;--mu:#9a9aa5;--bd:#2c3035;--ac:#3ecf9a;--gn:#3ecf9a;--rd:#ff6b6b;--am:#f0b429;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#101214;--card:#1a1d20;--tx:#ececec;--mu:#9a9aa5;--bd:#2c3035;--ac:#3ecf9a;--gn:#3ecf9a;--rd:#ff6b6b;--am:#f0b429;color-scheme:dark}
@@ -142,9 +143,9 @@ const X_=i=>xR-(n-1-i+V.p)*bw,r1=v=>Math.round(v*10)/10;
 let lo=1e18,hi=-1e18;for(let i=i0;i<=i1;i++){const c=a[i];if(c.l<lo)lo=c.l;if(c.h>hi)hi=c.h}
 if(!(hi>=lo)){lo=hi=a[n-1].c}
 let rg=hi-lo;if(!(rg>x.pip*4)){const m=(hi+lo)/2;lo=m-x.pip*2;hi=m+x.pip*2;rg=hi-lo}
-const L=[];V.hit=[];V.sc=null;
-P.filter(p=>p.ins==ci).forEach(p=>{const h=k=>({t:'P',id:p.id,k});L.push([p.en,'var(--mu)',(p.st=='pend'?'Pend ':'Entry ')+f(p.en,ci),0]);L.push([p.sl,'var(--rd)','SL '+f(p.sl,ci),0,h('sl')]);p.t1&&L.push([p.t1,'var(--gn)','TP1 '+f(p.t1,ci),0,p.hit?null:h('t1')]);p.t2&&L.push([p.t2,'var(--gn)','TP2 '+f(p.t2,ci),0,h('t2')])});
-[['en','var(--mu)','Entry'],['sl','var(--rd)','SL'],['t1','var(--gn)','TP1'],['t2','var(--gn)','TP2']].forEach(([q,c,t])=>{if(+D[q])L.push([+D[q],c,t+' '+f(D[q],ci),1,q=='en'?null:{t:'D',k:q}])});
+const L=[],CB='#3183FF',CR='#DC5252',CG='#4C9A70';V.hit=[];V.sc=null;
+P.filter(p=>p.ins==ci).forEach(p=>{const h=k=>({t:'P',id:p.id,k});L.push([p.en,p.dir>0?CB:CR,(p.st=='pend'?'Pend ':'Entry ')+f(p.en,ci),0]);L.push([p.sl,CR,'SL '+f(p.sl,ci),0,h('sl')]);p.t1&&L.push([p.t1,CG,'TP1 '+f(p.t1,ci),0,p.hit?null:h('t1')]);p.t2&&L.push([p.t2,CG,'TP2 '+f(p.t2,ci),0,h('t2')])});
+[['en',(D.ln||dr)>0?CB:CR,'Entry'],['sl',CR,'SL'],['t1',CG,'TP1'],['t2',CG,'TP2']].forEach(([q,c,t])=>{if(+D[q])L.push([+D[q],c,t+' '+f(D[q],ci),1,q=='en'?null:{t:'D',k:q}])});
 L.forEach(l=>{if(l[0]>lo-rg&&l[0]<hi+rg){lo=Math.min(lo,l[0]);hi=Math.max(hi,l[0])}});
 const pd=(hi-lo)*.08;let mn=lo-pd,mx=hi+pd;if(V.fz){mn=V.fz.mn;mx=V.fz.mx}V.sc={mn,mx,ph};const y=v=>(1-(v-mn)/(mx-mn))*ph;
 const gst=niceStep((mx-mn)/5);let gs='';for(let v=Math.ceil(mn/gst)*gst,q=0;v<mx&&q<30;v+=gst,q++){const yy=r1(y(v));gs+=`<line x1="0" x2="${pw}" y1="${yy}" y2="${yy}" stroke="var(--bd)" stroke-width=".5"/><text class="lb" x="${pw+3}" y="${yy+3}" fill="var(--mu)">${f(v,ci)}</text>`}
@@ -153,7 +154,7 @@ let tg='';for(let i=i0;i<=i1;i++){const t=a[i].t;if(t%(stp*60))continue;const xx
 let cs='';const bwid=Math.max(1,bw*.7);for(let i=i0;i<=i1;i++){const c=a[i],xx=r1(X_(i)),col=c.c>=c.o?'var(--gn)':'var(--rd)',yo=y(c.o),yc=y(c.c);cs+=`<line x1="${xx}" x2="${xx}" y1="${r1(y(c.h))}" y2="${r1(y(c.l))}" stroke="${col}"/>`;if(bw>=3)cs+=`<rect x="${r1(xx-bwid/2)}" y="${r1(Math.min(yo,yc))}" width="${r1(bwid)}" height="${r1(Math.max(1,Math.abs(yo-yc)))}" fill="${col}"/>`}
 const si_=V.sel?a.findIndex(c=>c.t==V.sel):-1;let sel='',hd=`${ci} · M1 · ${stt}`;
 if(si_>=0){const c=a[si_],xx=r1(X_(si_)),d=new Date(c.t*1000);sel=`<line x1="${xx}" x2="${xx}" y1="0" y2="${ph}" stroke="var(--mu)" stroke-dasharray="2 3"/>`;hd=d.toLocaleString([],{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+` · O ${f(c.o,ci)} H ${f(c.h,ci)} L ${f(c.l,ci)} C ${f(c.c,ci)}`}
-const lines=L.map(l=>{const yy=y(l[0]),Y=r1(Math.min(ph-4,Math.max(9,yy))),o=yy<9?'▲ ':yy>ph-4?'▼ ':'';if(l[4])V.hit.push({y:Y,h:l[4]});return`<line x1="0" x2="${pw}" y1="${Y}" y2="${Y}" stroke="${l[1]}" ${l[3]?'stroke-dasharray="5 3" ':''}opacity=".85"/><text class="lb" x="4" y="${Y-2}" fill="${l[1]}">${o}${l[2]}</text>${l[4]?`<circle cx="${pw-14}" cy="${Y}" r="9" fill="${l[1]}" opacity=".95"/><text class="lb" x="${pw-14}" y="${Y+3.5}" text-anchor="middle" fill="#fff">⇕</text>`:''}`}).join('');
+const lines=L.map(l=>{const yy=y(l[0]),Y=r1(Math.min(ph-4,Math.max(9,yy))),o=yy<9?'▲ ':yy>ph-4?'▼ ':'';if(l[4])V.hit.push({y:Y,h:l[4]});return`<line x1="0" x2="${pw}" y1="${Y}" y2="${Y}" stroke="${l[1]}" stroke-width="${/^(Entry|Pend)/.test(l[2])?2.5:1.5}" stroke-dasharray="6 4"/><text class="lb" x="4" y="${Y-2}" fill="${l[1]}">${o}${l[2]}</text>${l[4]?`<circle cx="${pw-14}" cy="${Y}" r="9" fill="${l[1]}" opacity=".95"/><text class="lb" x="${pw-14}" y="${Y+3.5}" text-anchor="middle" fill="#fff">⇕</text>`:''}`}).join('');
 const cur=live?bid(ci):a[n-1].c,yb=r1(y(cur)),yt=Math.min(ph-7,Math.max(7,yb));
 const pl_=`<line x1="0" x2="${pw}" y1="${yb}" y2="${yb}" stroke="var(--tx)" stroke-dasharray="2 3" opacity=".55"/>`+(live?`<line x1="0" x2="${pw}" y1="${r1(y(ask(ci)))}" y2="${r1(y(ask(ci)))}" stroke="var(--mu)" stroke-dasharray="1 3"/>`:'');
 const tag=`<rect x="${pw}" y="${yt-7}" width="${AX}" height="14" fill="${live?'var(--ac)':'var(--mu)'}"/><text class="lb" x="${pw+3}" y="${yt+3}" fill="#fff">${f(cur,ci)}</text>`;
