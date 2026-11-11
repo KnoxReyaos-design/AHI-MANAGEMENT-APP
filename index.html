@@ -516,7 +516,7 @@ body[data-page="dashboard"] .matrow{
 /* AHI v19 mobile precision and accessibility */
 :focus-visible{outline:3px solid #1675df;outline-offset:2px}
 @media(max-width:640px){body{font-size:16px}button,.btn,.tab,.navbtn,.dbtn{min-height:44px}input,select,textarea{font-size:16px!important;min-height:44px;max-width:100%}.card{overflow-wrap:anywhere}.formgrid{grid-template-columns:minmax(0,1fr)!important}.table-wrap,.tblwrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
-</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><style id="v17-redesign">
+</style><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"></noscript><link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><style id="v17-redesign">
 .balcard.dark{background:#0F1A2E;border-color:#0F1A2E;color:#fff;border-radius:22px;padding:20px}
 .balcard.dark .metric-label{color:#D8B96A}.balcard.dark .metric{color:#fff}
 .fumrow{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:14px}
@@ -982,7 +982,7 @@ body[data-page="forecast"] #view{height:100%;overflow:hidden!important;padding:0
 <script>(function(){function show(m){var el=document.getElementById('err');if(el&&!window.__ahiReady&&!el.textContent)el.textContent=m}addEventListener('error',function(e){show('The app could not start ('+(e.message||'a script failed to load')+'). Check your connection and reload.')},true);setTimeout(function(){show('The app is still loading or could not start. Check your connection, then reload the page.')},8000)})();</script>
 <script type="module">
 import{createClient}from'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/+esm';
-window.__ahiReady=true;
+window.__ahiReady=true;{const w=document.getElementById('err');if(w&&/still loading|could not start/.test(w.textContent))w.textContent=''}
 const db=createClient('https://aeaxkcebentrcdauksnf.supabase.co','sb_publishable_VTyhRC9EryO0pVOX0-vGRg_cvgm6ZMr');
 const $=x=>document.getElementById(x),today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Lusaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 /* ===== Investments start on Sundays only (mirrors private.normalize_investment_start in the database) ===== */
@@ -1018,7 +1018,8 @@ const cnt=t=>cached('c|'+t,GDEF,()=>cntRaw(t),false);
 const IDEM=new Map();function idem(n,v){const sig=JSON.stringify(v),e=IDEM.get(n);if(e&&e.sig===sig)return e.key;const key=(crypto.randomUUID?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=crypto.getRandomValues(new Uint8Array(1))[0]&15;return(c==='x'?r:(r&3|8)).toString(16)}));IDEM.set(n,{sig,key});return key}
 async function rpc(n,a){let{data,error}=await db.rpc(n,a);cacheClear();if(error)throw error;return data}
 async function exportAhiBackup(){if(prof?.role!=='super_admin'||!can('audit.read'))throw Error('Only the Super Admin may export a full workspace backup.');const names=['clients','client_accounts','client_duplicate_reviews','client_investments','client_investment_entries','client_investment_obligations','client_investment_settlements','app_permissions','role_permissions','profiles','audit_events','investment_categories','investment_packages','company_investments','company_investment_entries','company_investment_valuations','company_fx_rates','company_projections','role_permission_overrides','company_fx_conversions','company_investment_types','company_calc_rules','investment_letter_categories','company_fee_settings'];const orderKey={profiles:'user_id',app_permissions:'permission_key',role_permissions:'role,permission_key',role_permission_overrides:'role,permission_key',company_calc_rules:'id',company_fee_settings:'id'};const records={};for(const name of names)records[name]=await get(name,'*',orderKey[name]||'id');const payload={format:'AHI_FULL_BACKUP',format_version:1,created_at:new Date().toISOString(),project_ref:'aeaxkcebentrcdauksnf',created_by:prof.user_id,record_counts:Object.fromEntries(Object.entries(records).map(([k,v])=>[k,v.length])),records};const body=JSON.stringify(payload);const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(body));const sha256=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('');const file=JSON.stringify({...payload,integrity:{algorithm:'SHA-256',digest:sha256}},null,2);const blob=new Blob([file],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='AHI-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);return {tables:names.length,rows:Object.values(records).reduce((n,v)=>n+v.length,0),sha256}}
-let flashT;function msg(s,type='ok'){const box=$('flash');if(!box){console.info(s);return}box.textContent=s;box.className=type==='error'?'error':'';box.setAttribute('role',type==='error'?'alert':'status');box.hidden=false;clearTimeout(flashT);flashT=setTimeout(()=>box.hidden=true,type==='error'?9000:4500)}
+let flashT;function niceErr(e,fb){let m=(e&&(e.message||e.msg||e.error_description))||(typeof e==='string'?e:'');m=String(m||'').trim();if(!m||/^[\[{]\s*[\]}]$/.test(m)||m==='[object Object]'||/failed to fetch|networkerror|load failed|network request failed|fetch failed/i.test(m)||(e&&e.name==='AuthRetryableFetchError'))return fb||'Cannot reach the server. Check your connection and try again.';return m}
+function msg(s,type='ok'){s=niceErr(s);const box=$('flash');if(!box){console.info(s);return}box.textContent=s;box.className=type==='error'?'error':'';box.setAttribute('role',type==='error'?'alert':'status');box.hidden=false;clearTimeout(flashT);flashT=setTimeout(()=>box.hidden=true,type==='error'?9000:4500)}
 $('flash').onclick=()=>$('flash').hidden=true;
 function ask(title,body,label='Confirm',danger=false){return new Promise(res=>{const d=$('dlg');d.innerHTML=`<form method="dialog" class="dlgbox"><h3 id="dlgtitle">${esc(title)}</h3><div class="dlgbody">${body}</div><div class="dlgact"><button value="no" class="btn ghost">Cancel</button><button value="yes" class="btn${danger?' danger':''}">${esc(label)}</button></div></form>`;d.returnValue='no';d.onclose=()=>res(d.returnValue==='yes');d.showModal()})}
 ['dlg','more','drawer'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))$(id).close('no')}));
@@ -1047,10 +1048,9 @@ async function login(s){
  cacheClear();
  const user=s?.user||(await db.auth.getUser()).data?.user;
  if(!user?.id)throw Error('Your sign-in session could not be verified. Please sign in again.');
- const ps=await get('profiles','*');
+ const [ps,r,o]=await Promise.all([get('profiles','*'),get('role_permissions','role,permission_key'),get('role_permission_overrides','role,permission_key,is_allowed')]);
  prof=ps.find(x=>x.user_id===user.id);
  if(!prof||prof.account_status!=='active')throw Error('This account has no active AHI staff profile. Contact the Super Admin.');
- const [r,o]=await Promise.all([get('role_permissions','role,permission_key'),get('role_permission_overrides','role,permission_key,is_allowed')]);
  perms=new Set(r.filter(x=>x.role===prof.role).map(x=>x.permission_key));
  o.filter(x=>x.role===prof.role).forEach(x=>x.is_allowed?perms.add(x.permission_key):perms.delete(x.permission_key));
  applyGrants();await v7gate(user);
@@ -1058,8 +1058,8 @@ async function login(s){
  $('who').textContent=prof.display_name||user.email||'AHI staff';$('whorole').textContent=(prof.role||'').replaceAll('_',' ');
  drawNav();
  // Authentication is complete at this point. A dashboard/data error must not sign out a valid user.
- try{await render(page)}catch(e){$('view').innerHTML=`<div class="card errorcard" role="alert"><h3>Signed in — workspace data could not load</h3><p>${esc(e?.message||'Please check your connection and retry.')}</p><button class="btn" id="retry">Try again</button></div>`;$('retry').onclick=()=>render(page)}
- setTimeout(warmCache,700);
+ try{await render(page)}catch(e){$('view').innerHTML=`<div class="card errorcard" role="alert"><h3>Signed in — workspace data could not load</h3><p>${esc(niceErr(e,'Please check your connection and retry.'))}</p><button class="btn" id="retry">Try again</button></div>`;$('retry').onclick=()=>render(page)}
+ setTimeout(()=>{const c=navigator.connection;if(c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||'')))return;(window.requestIdleCallback||setTimeout)(()=>{try{window.__ahiWarm&&window.__ahiWarm()}catch(_){}})},4000);
 }
 /* ===== Swipe back twice to exit: the first back swipe only warns, the second (within 2.5 s) leaves the app ===== */
 const EXITGUARD=(()=>{let armed=false,timer=0;const push=()=>{try{history.pushState({ahiGuard:1},'',location.href)}catch(_){}};
@@ -1368,7 +1368,7 @@ list=a.slice(0,250).map(r=>`<details class="aud"><summary><span class="an">${esc
 $('view').innerHTML=`<div class="card"><h3>Audit trail · newest first</h3>${a.length?`<div class="audlist">${list}</div>${a.length>250?'<p class="muted">Showing the latest 250 events.</p>':''}`:'<div class="empty"><strong>No audit events yet</strong></div>'}</div>`}
 };
 async function failLogin(e){const m=e?.message||'Sign in failed';$('err').textContent=m;}
-$('sign').onclick=async()=>{const b=$('sign'),email=$('email').value.trim(),password=$('pass').value;$('err').textContent='';if(!email||!password){$('err').textContent='Enter both your staff email and password.';return}b.disabled=true;b.textContent='Signing in…';try{const{data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await login(data.session)}catch(e){$('err').textContent=e?.message||'Sign in failed. Check your connection and try again.'}finally{b.disabled=false;b.textContent='Sign in'}};
+$('sign').onclick=async()=>{const b=$('sign'),email=$('email').value.trim(),password=$('pass').value;$('err').textContent='';if(!email||!password){$('err').textContent='Enter both your staff email and password.';return}b.disabled=true;b.textContent='Signing in…';try{const{data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;await login(data.session)}catch(e){$('err').textContent=niceErr(e,'Sign in failed. Check your connection and try again.')}finally{b.disabled=false;b.textContent='Sign in'}};
 $('peek').onclick=()=>{const p=$('pass'),show=p.type==='password';p.type=show?'text':'password';$('peek').textContent=show?'Hide':'Show';$('peek').setAttribute('aria-label',show?'Hide password':'Show password')};
 $('out2').onclick=()=>$('out').click();$('moreclose').onclick=()=>$('more').close();$('menuopen').onclick=()=>$('drawer').showModal();$('menuright').onclick=()=>$('drawerR').showModal();$('drawerRout').onclick=()=>$('out').click();['drawer','drawerR'].forEach(i=>$(i).addEventListener('click',e=>{if(e.target===$(i))$(i).close()}));$('drawerout').onclick=()=>$('out').click();
 $('pass').onkeydown=e=>{if(e.key==='Enter')$('sign').click()};$('out').onclick=async()=>{const b=$('out');b.disabled=true;try{const{error}=await db.auth.signOut({scope:'local'});if(error)throw error;location.reload()}catch(e){msg(e?.message||'Could not sign out. Try again.','error');b.disabled=false}};
@@ -1394,7 +1394,8 @@ function warmCache(){const q=[];const a=(f)=>q.push(()=>f().catch(()=>{}));
  if(can('clients.read')){a(()=>get('clients','id,client_number,full_name'));a(()=>get('clients',CCOLS,'created_at'));a(()=>get('client_accounts','id,client_id,account_number,account_status,opened_at,closed_at,close_reason','created_at'))}
  if(can('client_investments.read')){a(()=>get('client_investments','id,investment_number,client_id,currency_code,principal,expected_maturity_amount,maturity_date,investment_status','created_at'));a(()=>get('client_investment_balances','investment_id,amount_outstanding'));a(()=>get('client_investment_entries','id,investment_id,entry_type,amount,currency_code,transaction_date,notes','created_at'));a(()=>get('client_investments','id,investment_number,client_id,currency_code'));a(()=>get('investment_packages','*'));a(()=>get('investment_categories','id,name'))}
  if(can('reports.read'))a(()=>get('company_portfolio_summary','*'));
- (async()=>{for(let i=0;i<q.length;i+=3){await Promise.all(q.slice(i,i+3).map(f=>f()))}})()}
+ (async()=>{for(let i=0;i<q.length;i+=2){await Promise.all(q.slice(i,i+2).map(f=>f()))}})()}
+window.__ahiWarm=warmCache;
 const CCOLS='id,client_number,full_name,phone,phone_normalized,email,email_normalized,address,identity_reference,registration_date,client_status,archived_at,archive_reason,notes,row_version,created_at';
 
 /* ================= CLIENTS ================= */

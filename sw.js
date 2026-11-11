@@ -4,7 +4,8 @@
      (bypassing the HTTP cache), takes over at once, and deletes every older ahi-client-* cache.
    - index.html is also fingerprinted (SHA-256) so the page can tell when a newer index.html is live
      even if this file was not changed. */
-const VERSION = 'v70';
+const VERSION = 'v71';
+const CDN_CACHE = 'ahi-cdn-v1';   /* pinned library files; kept across app updates */
 const CACHE_NAME = 'ahi-client-' + VERSION;
 const CACHE_PREFIX = 'ahi-client-';
 const INDEX_URL = './index.html';
@@ -146,10 +147,21 @@ async function handleNavigate(event) {
   }
 }
 
+/* Pinned, versioned library files (never API calls): served from the phone first, filled in on first use. */
+async function cdnHandler(request) {
+  const cache = await caches.open(CDN_CACHE);
+  const hit = await cache.match(request);
+  if (hit) return hit;
+  const resp = await fetch(request);
+  if (resp && resp.ok) { try { await cache.put(request, resp.clone()); } catch (_) {} }
+  return resp;
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
+  if (url.hostname === 'cdn.jsdelivr.net' && /\/npm\/[^?#]*@\d+\.\d+\.\d+/.test(url.pathname)) { event.respondWith(cdnHandler(request)); return; }
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
